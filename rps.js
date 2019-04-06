@@ -16,27 +16,11 @@ function run(){
 	var reward = 0;
 
 	if(myMove != opMove){
-		if(myMove == "R" && opMove == "P" ){
+		if(myMove == "R" && opMove == "P" ||  myMove == "P" && opMove == "S"|| myMove == "S" && opMove == "R"  ){
 			reward = 10;
 			document.getElementById('result').innerHTML = "Player Loses";
 		}
-		if(myMove == "R" && opMove == "S" ){
-			reward = -10;
-			document.getElementById('result').innerHTML = "Player Wins";
-		}
-		if(myMove == "P" && opMove == "S" ){
-			reward = 10;
-			document.getElementById('result').innerHTML = "Player Loses";
-		}
-		if(myMove == "P" && opMove == "R" ){
-			reward = -10;
-			document.getElementById('result').innerHTML = "Player Wins";
-		}
-		if(myMove == "S" && opMove == "R" ){
-			reward = 10;
-			document.getElementById('result').innerHTML = "Player Loses";
-		}
-		if(myMove == "S" && opMove == "P" ){
+		if(myMove == "R" && opMove == "S"|| myMove == "P" && opMove == "R" || myMove == "S" && opMove == "P"  ){
 			reward = -10;
 			document.getElementById('result').innerHTML = "Player Wins";
 		}
