@@ -1,8 +1,6 @@
 //create model class
 const model = tf.sequential();
-model.add(tf.layers.dense({units: 3, inputShape: [3], activation: 'relu'}));
-model.add(tf.layers.dense({units: 3}));
-
+model.add(tf.layers.dense({units: 3, inputShape: [3], useBias: false, kernelInitializer: 'heNormal'}));
 model.compile({loss: 'meanSquaredError', optimizer: 'sgd'});
 
 function run(){
@@ -16,10 +14,18 @@ function run(){
 	//choose from model
 	var intMove = convertToInt(myMove);
 	const xs = tf.tensor2d(intMove, [1,3]);
-	var probs = model.predict(xs).arraySync()[0];
+	var logits = model.predict(xs).arraySync()[0];
 	//show probs in a graph
+	var probs = tf.softmax(logits).arraySync();
+	var data = [
+		{
+		x: moves,
+		y: probs,
+		type:'bar'
+		}
+	];
+	Plotly.newPlot('myDiv', data)
 	//choose opMoveIdx using greedy epsilon
-	console.log(tf.softmax(probs).arraySync());
 	var opMoveIdx = Math.floor((Math.random() * 3) + 0);
 	opMove = moves[opMoveIdx];
 
@@ -40,16 +46,14 @@ function run(){
 		}
 
 	}else{
+		reward = -10;
 		document.getElementById('result').innerHTML = "Player Ties";
 	}
 
 	//update model
-	console.log(probs)
-	probs[opMoveIdx] = probs[opMoveIdx] + reward;
-	console.log(probs)
-	const ys = tf.tensor2d(probs, [1, 3])
+	logits[opMoveIdx] = logits[opMoveIdx] + reward;
+	const ys = tf.tensor2d(logits, [1, 3])
 	model.fit(xs, ys);
-	console.log("fit model")
 }
 
 function convertToInt(move){
