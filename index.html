@@ -11,6 +11,21 @@
             padding: 0;
             margin: 0;
         }
+
+	/* Create three equal columns that floats next to each other */
+	.column {
+		float: left;
+		width: 28%;
+		padding: 10px;
+		height: 300px; /* Should be removed. Only for demonstration */
+		}
+
+	/* Clear floats after the columns */
+	.row:after {
+		content: "";
+		display: table;
+		clear: both;
+		}
     </style>
 </head>
 
@@ -21,20 +36,24 @@
 		}
         </script>
 
-	<input type="button" value="ROCK" id="b1" onclick="changeText(this.value);"/>
-	<input type="button" value="PAPER" id="b2" onclick="changeText(this.value);"/>
-	<input type="button" value="SCISSORS" id="b3" onclick="changeText(this.value);"/>
+	<input type="button" value="ROCK" id="b1" onclick="changeText(this.value); chooseMove()"/>
+	<input type="button" value="PAPER" id="b2" onclick="changeText(this.value); chooseMove()"/>
+	<input type="button" value="SCISSORS" id="b3" onclick="changeText(this.value); chooseMove()"/>
 	
 	<p id="pText"> </p>
 
-	<input type="button" value="Opponent Choose Action" id="b4" onclick="run()"/>
+	<input type="button" value="Positive Reward" id="b5" onclick="train(10)"/>
+	<input type="button" value="Negative Reward" id="b5" onclick="train(-10)"/>
 
 	<p id="oText"> </p>
 
 	<p id="result"> </p>
 
-	<div id="myDiv"> </div>
-
+	<div class="row">
+		<div id="div1" class="column"> </div>
+		<div id="div2" class="column"> </div>
+		<div id="div3" class="column"> </div>
+	</div>
 </body>
 
 </html>
