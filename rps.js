@@ -4,8 +4,6 @@ model.add(tf.layers.dense({units: 3, inputShape: [3], useBias: false, kernelInit
 model.compile({loss: 'meanSquaredError', optimizer: 'sgd'});
 
 moves = ["ROCK", "PAPER", "SCISSORS"];
-var xs;
-var logits;
 
 function chooseMove(){
 	
@@ -18,8 +16,8 @@ function chooseMove(){
 	if(!training){
 		//choose from model
 		var intMove = convertToInt(myMove);
-		xs = tf.tensor2d(intMove, [1,3]);
-		logits = model.predict(xs).arraySync()[0];
+		var xs = tf.tensor2d(intMove, [1,3]);
+		var logits = model.predict(xs).arraySync()[0];
 	}else{
 		//choose randomly 
 		var opMoveIdx = Math.floor((Math.random() * 3) + 0);
@@ -33,6 +31,8 @@ function plotProbs(){
 	var divs = ['div1', 'div2', 'div3']
 	var probs;
 	var data;
+	var xs;
+	var logits;
 	for(var i=0;i<3;i++){
 		xs = tf.tensor2d(convertToInt(moves[i].charAt(0)), [1, 3]);
 		logits = model.predict(xs).arraySync()[0];
@@ -46,7 +46,7 @@ function plotProbs(){
 		];
 
 		var layout = {
-			title: 'what should i play against ' + moves[i] + '?',
+			title: 'What should I play against ' + moves[i] + '?',
 			width: 450,
 			height: 300
 
@@ -55,39 +55,22 @@ function plotProbs(){
 	}
 }
 
-function train(rew){
+function train(reward){
 	opMoveFull = document.getElementById('oText').innerHTML;
 	opMove = opMoveFull.charAt(0);
 	myMove = document.getElementById('pText').innerHTML.charAt(0);
 	opMoveIdx = moves.indexOf(opMoveFull);
-	var reward = 0;
 
 	var intMove = convertToInt(myMove);
-	xs = tf.tensor2d(intMove, [1,3]);
-	logits = model.predict(xs).arraySync()[0];
-	if(myMove != opMove){
-		if(myMove == "R" && opMove == "P" ||  myMove == "P" && opMove == "S"|| myMove == "S" && opMove == "R"  ){
-			reward = 10;
-			document.getElementById('result').innerHTML = "Player Loses";
-		}
-		if(myMove == "R" && opMove == "S"|| myMove == "P" && opMove == "R" || myMove == "S" && opMove == "P"  ){
-			reward = -10;
-			document.getElementById('result').innerHTML = "Player Wins";
-		}
-
-	}else{
-		reward = -10;
-		document.getElementById('result').innerHTML = "Player Ties";
-	}
+	var xs = tf.tensor2d(intMove, [1,3]);
+	var logits = model.predict(xs).arraySync()[0];
 
 	//update model
 	logits[opMoveIdx] = logits[opMoveIdx] + reward;
 	const ys = tf.tensor2d(logits, [1, 3])
-	model.fit(xs, ys);
-	
-	//plot the probabilities
-	plotProbs();
-
+	model.fit(xs, ys).then(()=>{
+		plotProbs();
+	});
 }
 
 function convertToInt(move){
