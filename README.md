@@ -9,6 +9,4 @@ The goal is for this to be interactive:
  
 The choice of actions are visualied using plotly.js and we can see them change over time.
 
-### TODO: Add a button for the reward and remove the in-built one.
-
 
