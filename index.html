@@ -31,29 +31,40 @@
 
 <body>
 	<script type="text/javascript">
-		function changeText(value) {
-			document.getElementById('pText').innerHTML = value;
+		function setMyMove(value) {
+			document.getElementById('pText').innerHTML = "My Move: " + value;
+		}
+		
+		function setAgentMove(value){
+			document.getElementById('oText').innerHTML = "Agent Move: " + value;
 		}
         </script>
 
-	<input type="button" value="ROCK" id="b1" onclick="changeText(this.value); chooseMove()"/>
-	<input type="button" value="PAPER" id="b2" onclick="changeText(this.value); chooseMove()"/>
-	<input type="button" value="SCISSORS" id="b3" onclick="changeText(this.value); chooseMove()"/>
-	
-	<p id="pText"> </p>
+	<input type="button" value="ROCK" id="b1" onclick="setMyMove(this.value); setAgentMove(chooseMove(this.value))"/>
+	<input type="button" value="PAPER" id="b2" onclick="setMyMove(this.value); setAgentMove(chooseMove(this.value))"/>
+	<input type="button" value="SCISSORS" id="b3" onclick="setMyMove(this.value); setAgentMove(chooseMove(this.value))"/>
+
+	<p id="pText">My Move: </p>
 
 	<input type="button" value="Positive Reward" id="b5" onclick="train(100)"/>
 	<input type="button" value="Negative Reward" id="b5" onclick="train(-100)"/>
 
-	<p id="oText"> </p>
+	<p id="oText">Agent Move: </p>
 
-	<p id="result"> </p>
+	 <form>
+		<input type="radio" name="phase" value="train" checked> Train<br>
+	        <input type="radio" name="phase" value="evaluate"> Evaluate<br>
+	 </form> 
 
 	<div class="row">
 		<div id="div1" class="column"> </div>
 		<div id="div2" class="column"> </div>
 		<div id="div3" class="column"> </div>
 	</div>
+
+	<script type="text/javascript">
+		init();
+        </script>
 </body>
 
 </html>
