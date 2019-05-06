@@ -26,14 +26,12 @@ function init(){
 
 function chooseMove(move){
 	
-	var training = true;
-
 	myMove = move;
 	var phase = document.getElementsByName('phase')
 
 	if(phase[1].checked){
 		//choose from model
-		var intMove = convertToInt(myMove);
+		var intMove = convertToOneHot(myMove);
 		var xs = tf.tensor2d(intMove, [1,3]);
 		var logits = model.predict(xs).arraySync()[0];
 		//get max
@@ -58,7 +56,7 @@ function plotProbs(){
 	var xs;
 	var logits;
 	for(var i=0;i<3;i++){
-		xs = tf.tensor2d(convertToInt(moves[i]), [1, 3]);
+		xs = tf.tensor2d(convertToOneHot(moves[i]), [1, 3]);
 		logits = model.predict(xs).arraySync()[0];
 		probs = tf.softmax(logits).arraySync();
 		data = [
@@ -89,7 +87,7 @@ function train(reward){
 	var phase = document.getElementsByName('phase')
 	if(phase[0].checked){
 		
-		var intMove = convertToInt(myMove);
+		var intMove = convertToOneHot(myMove);
 		var xs = tf.tensor2d(intMove, [1,3]);
 		var logits = model.predict(xs).arraySync()[0];
 
@@ -108,7 +106,7 @@ function train(reward){
  * Params: Move
  * Return: One-Hot-Vector
  */
-function convertToInt(move){
+function convertToOneHot(move){
 	if(move=="ROCK") return [1, 0, 0];
 	if(move=="PAPER") return [0, 1, 0];
 	if(move=="SCISSORS") return [0, 0, 1];
