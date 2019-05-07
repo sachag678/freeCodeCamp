@@ -1,8 +1,8 @@
 //definitions
 moves = ["ROCK", "PAPER", "SCISSORS"];
-var myMove;
-var opMove;
-var opMoveIdx;
+let myMove;
+let opMove;
+let opMoveIdx;
 const model = tf.sequential();
 
 /**
@@ -27,7 +27,7 @@ function init(){
 function chooseMove(move){
 	
 	myMove = move;
-	var phase = document.getElementsByName('phase')
+	var phase = document.getElementsByName('phase');
 
 	if(phase[1].checked){
 		//choose from model
