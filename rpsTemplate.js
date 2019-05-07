@@ -23,7 +23,7 @@ function init(){
  */
 
 function chooseMove(move){
-	//check if trianing or evaluate
+	//check if training or evaluate
 	//if training choose randomly
 	//if eval get argmax of the move
 }
