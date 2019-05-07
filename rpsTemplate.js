@@ -11,6 +11,7 @@ const model = tf.sequential();
  */
 function init(){
 	//create model class
+	//plot probs
 }
 
 /**
