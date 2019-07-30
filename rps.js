@@ -32,8 +32,8 @@ function chooseMove(move){
 	if(phase[1].checked){
 		//choose from model
 		var intMove = convertToOneHot(myMove);
-		var xs = tf.tensor2d(intMove, [1,3]);
-		var logits = model.predict(xs).arraySync()[0];
+		var xs = tf.tensor2d(intMove, [,3]);
+		var logits = model.predict(xs).arraySync();
 		//get max
 		opMove = moves[getMaxIndex(logits)];
 	}else{

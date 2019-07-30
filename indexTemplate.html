@@ -32,21 +32,27 @@
 <body>
 	<script type="text/javascript">
 		function setMyMove(value) {
+		document.getElementById("playerText").innerHTML = "My Move: " + value;	
 		}
 		
 		function setAgentMove(value){
+		document.getElementById("agentText").innerHTML = "Agent Move: " + value;	
 		}
         </script>
 
-	<! Create button for ROCK PAPER SCISSORS and set a function to be used onclick with this.value as the param. Call the chooseMove() function.>
+	<input type="button" value="ROCK" id="b1" onclick="setMyMove(this.value); setAgentMove(chooseMove(this.value));"/>
+	<input type="button" value="PAPER" id="b2" onclick="setMyMove(this.value); setAgentMove(chooseMove(this.value));"/>
+	<input type="button" value="SCISSORS" id="b3" onclick="setMyMove(this.value); setAgentMove(chooseMove(this.value));"/>
 
-	<! Set the player move>
+	<p id="playerText"> My Move: </p>
 
-	<! Create buttons for positive and negative reward and call the train function with a reward value > 
+	<input type="button" value="Positive reward" id="b4" onclick="train(100)"/>
+	<input type="button" value="Negative reward" id="b5" onclick="train(-100)"/>
 
-	<! Set the agent move>
+	<p id="agentText"> Agent Move: </p>
 
-	<!Create the radio buttons for train and valuate and name it phase.>
+	<input type="radio" name="phase" value= "Train" checked> Train <br>
+	<input type="radio" name="phase" value= "evaluate" checked> Evaluate<br>
 
 	<div class="row">
 		<div id="div1" class="column"> </div>

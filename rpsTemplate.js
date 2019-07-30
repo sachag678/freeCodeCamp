@@ -11,7 +11,10 @@ const model = tf.sequential();
  */
 function init(){
 	//create model class
+	model.add(tf.layers.dense({units: 3, inputShape: [3], useBias: false, kernalInitializer: "heNormal"}));
+	model.compile({loss: 'meanSquaredError', optimizer: 'sgd'});
 	//plot probs
+	plotProbs();
 }
 
 /**
@@ -27,6 +30,21 @@ function chooseMove(move){
 	//check if training or evaluate
 	//if training choose randomly
 	//if eval get argmax of the move
+	myMove = move;
+	var phase = document.getElementsByName("phase");
+	if(phase[1].checked){
+	//choose the best move
+		var intMove = convertToOneHot(myMove);
+		var xs = tf.tensor2d(intMove, [1,3]);
+		var logits = model.predict(xs).arraySync()[0];
+		
+		opMove = moves[getMaxIndex(logits)];
+
+	}else{
+		opMoveIdx = Math.floor((Math.random()*3));
+		opMove = moves[opMoveIdx];
+	}
+	return opMove;
 }
 
 /**
@@ -53,7 +71,7 @@ function plotProbs(){
 
 		var layout = {
 			title: 'What should I play against ' + moves[i] + '?',
-			width: 450,
+			width: 300,
 			height: 300
 
 		};
