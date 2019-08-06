@@ -9,4 +9,6 @@ The goal is for this to be interactive:
  
 The choice of actions are visualied using plotly.js and we can see them change over time.
 
+updates
+
 
